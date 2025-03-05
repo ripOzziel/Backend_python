@@ -9,11 +9,11 @@ CREATE TABLE ASENTAMIENTO (
 
 CREATE TABLE UBICACION (
     id_ubicacion char(36) PRIMARY KEY DEFAULT (UUID()),
-    cod_postal VARCHAR(5) NOT NULL,
+    cod_postal VARCHAR(5),
     cve_mun VARCHAR(5),
     cve_loc VARCHAR(8),
-    latitud DECIMAL(10, 10),
-    longitud DECIMAL(10, 10),
+    latitud DECIMAL(10, 10) NOT NULL,
+    longitud DECIMAL(10, 10) NOT NULL,
     id_asentamiento char(36) NOT NULL,
     FOREIGN KEY (id_asentamiento) REFERENCES ASENTAMIENTO(id_asentamiento)
 );
@@ -22,7 +22,7 @@ CREATE TABLE ESTABLECIMIENTO (
     id_establecimiento char(36) PRIMARY KEY DEFAULT (UUID()),
     nom_estab VARCHAR(85) NOT NULL,
     raz_social VARCHAR(60),
-    codigo_act VARCHAR(10),
+    codigo_act VARCHAR(10) NOT NULL,
     fecha_alta DATE NOT NULL,
     id_ubicacion char(36) NOT NULL,
     FOREIGN KEY (id_ubicacion) REFERENCES UBICACION(id_ubicacion)
@@ -30,21 +30,21 @@ CREATE TABLE ESTABLECIMIENTO (
 
 CREATE TABLE TELEFONO_ESTABLECIMIENTO (
     id_telefono char(36) PRIMARY KEY DEFAULT (UUID()),
-    telefono VARCHAR(15) UNIQUE NOT NULL,
+    telefono VARCHAR(15) UNIQUE,
     id_establecimiento char(36) NOT NULL,
     FOREIGN KEY (id_establecimiento) REFERENCES ESTABLECIMIENTO(id_establecimiento)
 );
 
 CREATE TABLE CORREO_ESTABLECIMIENTO (
     id_correo char(36) PRIMARY KEY DEFAULT (UUID()),
-    correo VARCHAR(85) UNIQUE NOT NULL,
+    correo VARCHAR(85) UNIQUE,
     id_establecimiento char(36) NOT NULL,
     FOREIGN KEY (id_establecimiento) REFERENCES ESTABLECIMIENTO(id_establecimiento)
 );
 
 CREATE TABLE WWW_ESTABLECIMIENTO (
     id_www char(36) PRIMARY KEY DEFAULT (UUID()),
-    www VARCHAR(85) UNIQUE NOT NULL,
+    www VARCHAR(85) UNIQUE,
     id_establecimiento char(36) NOT NULL,
     FOREIGN KEY (id_establecimiento) REFERENCES ESTABLECIMIENTO(id_establecimiento)
 );
