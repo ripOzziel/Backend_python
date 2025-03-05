@@ -1,39 +1,51 @@
 CREATE TABLE ASENTAMIENTO (
-    id_asentamiento INT AUTO_INCREMENT PRIMARY KEY,
-    nomb_asent VARCHAR(255),
-    tipo_asent VARCHAR(255),
-    tipo_vial VARCHAR(255),
-    numero_ext VARCHAR(50),
-    edificio VARCHAR(255),
-    numero_int VARCHAR(50)
+    id_asentamiento char(36) PRIMARY KEY DEFAULT (UUID()),
+    nomb_asent VARCHAR(35) NOT NULL,
+    tipo_asent VARCHAR(35),
+    tipo_vial VARCHAR(35),
+    edificio VARCHAR(25),
+    numero_int VARCHAR(8)
 );
 
-CREATE TABLE DIRECCION (
-    id_direccion INT AUTO_INCREMENT PRIMARY KEY,
-    cod_postal VARCHAR(10),
-    cve_mun VARCHAR(50),
-    cve_loc VARCHAR(50),
+CREATE TABLE UBICACION (
+    id_ubicacion char(36) PRIMARY KEY DEFAULT (UUID()),
+    cod_postal VARCHAR(5) NOT NULL,
+    cve_mun VARCHAR(5),
+    cve_loc VARCHAR(8),
     latitud DECIMAL(10, 10),
     longitud DECIMAL(10, 10),
-    id_asentamiento INT,
+    id_asentamiento char(36) NOT NULL,
     FOREIGN KEY (id_asentamiento) REFERENCES ASENTAMIENTO(id_asentamiento)
 );
 
-CREATE TABLE ESTABLECIMIENTO_CONTACTO (
-    id_contacto INT AUTO_INCREMENT PRIMARY KEY,
-    telefono VARCHAR(20),
-    correoelec VARCHAR(255),
-    www VARCHAR(255),
-    contactos VARCHAR(255)
-);
-
 CREATE TABLE ESTABLECIMIENTO (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    nom_estab VARCHAR(255),
-    raz_social VARCHAR(255),
-    codigo_act VARCHAR(50),
-    fecha_alta YEAR-MONTH,
+    id_establecimiento char(36) PRIMARY KEY DEFAULT (UUID()),
+    nom_estab VARCHAR(85) NOT NULL,
+    raz_social VARCHAR(60),
+    codigo_act VARCHAR(10),
+    fecha_alta DATE NOT NULL,
+    id_ubicacion char(36) NOT NULL,
+    FOREIGN KEY (id_ubicacion) REFERENCES UBICACION(id_ubicacion)
 );
 
+CREATE TABLE TELEFONO_ESTABLECIMIENTO (
+    id_telefono char(36) PRIMARY KEY DEFAULT (UUID()),
+    telefono VARCHAR(15) UNIQUE NOT NULL,
+    id_establecimiento char(36) NOT NULL,
+    FOREIGN KEY (id_establecimiento) REFERENCES ESTABLECIMIENTO(id_establecimiento)
+);
 
+CREATE TABLE CORREO_ESTABLECIMIENTO (
+    id_correo char(36) PRIMARY KEY DEFAULT (UUID()),
+    correo VARCHAR(85) UNIQUE NOT NULL,
+    id_establecimiento char(36) NOT NULL,
+    FOREIGN KEY (id_establecimiento) REFERENCES ESTABLECIMIENTO(id_establecimiento)
+);
+
+CREATE TABLE WWW_ESTABLECIMIENTO (
+    id_www char(36) PRIMARY KEY DEFAULT (UUID()),
+    www VARCHAR(85) UNIQUE NOT NULL,
+    id_establecimiento char(36) NOT NULL,
+    FOREIGN KEY (id_establecimiento) REFERENCES ESTABLECIMIENTO(id_establecimiento)
+);
 
